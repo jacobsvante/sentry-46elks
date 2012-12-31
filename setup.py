@@ -43,5 +43,5 @@ setup(
         ],
         'sentry.apps': ['46elks = {0}'.format(appname)],
     },
-    install_requires = ['requests>=1.0'],
+    requires = ['requests (>=1.0)'],
 )
