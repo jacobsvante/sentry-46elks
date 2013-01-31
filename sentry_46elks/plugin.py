@@ -11,7 +11,11 @@ import requests
 import sentry_46elks
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from sentry.conf import settings
 from sentry.plugins.bases.notify import NotificationPlugin
+
+
+NOTSET = object()
 
 
 class Sentry46ElksConfigurationForm(forms.Form):
@@ -42,7 +46,7 @@ class Sentry46ElksConfigurationForm(forms.Form):
         return ','.join(phones)
 
     def clean(self):
-        # TODO: Ping Twilio and check credentials (?)
+        # TODO: Ping 46elks and check credentials (?)
         return self.cleaned_data
 
 
@@ -67,6 +71,12 @@ class Sentry46ElksPlugin(NotificationPlugin):
     conf_title = title
     conf_key = '46elks'
     project_conf_form = Sentry46ElksConfigurationForm
+
+    def __init__(self, min_level=NOTSET, *args, **kwargs):
+        super(Sentry46ElksPlugin, self).__init__(*args, **kwargs)
+        if min_level is NOTSET:
+            min_level = getattr(settings, 'SMS_LEVEL')
+        self.min_level = min_level
 
     def is_configured(self, request, project, **kwargs):
         fields = ('api_baseurl', 'api_username', 'api_password', 'sender',
@@ -100,3 +110,10 @@ class Sentry46ElksPlugin(NotificationPlugin):
             except Exception as e:
                 # TODO: Handle
                 raise e
+
+    def get_option(self, key, *args, **kwargs):
+        super_ = super(Sentry46ElksPlugin, self)
+        value = super_.get_option(key, *args, **kwargs)
+        if value is None and key in ('min_level', ):
+            value = getattr(self, key)
+        return value
