@@ -26,6 +26,12 @@ Plugin will automatically be found by the current env's sentry (though a restart
 
 # Changelog
 
+## 0.1.3
+
+**Date**: Jan 31, 2013
+
+* New setting SENTRY_SMS_LEVEL which can be used to limit notification texts by their log level
+
 ## 0.1.2
 
 **Date**: Dec 31, 2012
