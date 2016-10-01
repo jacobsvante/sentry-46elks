@@ -1,0 +1,3 @@
+## 0.1.4 (2016-10-01)
+
+* Universal wheel. No idea if this plugin still works...

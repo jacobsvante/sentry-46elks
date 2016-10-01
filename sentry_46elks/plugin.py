@@ -19,22 +19,40 @@ NOTSET = object()
 
 
 class Sentry46ElksConfigurationForm(forms.Form):
-    api_endpoint = forms.CharField(label=_('API Endpoint'), required=True,
-                             help_text=_('API URL used for sending the texts'),
-                             initial='https://api.46elks.com/a1/SMS')
-    api_username = forms.CharField(label=_('API username'), required=True,
-        widget=forms.TextInput(attrs={'class': 'span6'}))
-    api_password = forms.CharField(label=_('API password'), required=True,
-        widget=forms.PasswordInput(render_value=True,
-                                   attrs={'class': 'span6'}))
-    sender = forms.CharField(label=_('SMS Sender'), required=True,
+    api_endpoint = forms.CharField(
+        label=_('API Endpoint'),
+        required=True,
+        help_text=_('API URL used for sending the texts'),
+        initial='https://api.46elks.com/a1/SMS',
+    )
+    api_username = forms.CharField(
+        label=_('API username'),
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'span6'}),
+    )
+    api_password = forms.CharField(
+        label=_('API password'),
+        required=True,
+        widget=forms.PasswordInput(
+            render_value=True,
+            attrs={'class': 'span6'},
+        ),
+    )
+    sender = forms.CharField(
+        label=_('SMS Sender'),
+        required=True,
         help_text=_('The number/name of the sender'),
-        widget=forms.TextInput(attrs={'placeholder': 'e.g. +46701234567'}))
-    receivers = forms.CharField(label=_('SMS Receivers'), required=True,
-        help_text=_('Recipient(s) phone numbers separated by commas ' \
+        widget=forms.TextInput(attrs={'placeholder': 'e.g. +46701234567'}),
+    )
+    receivers = forms.CharField(
+        label=_('SMS Receivers'),
+        required=True,
+        help_text=_('Recipient(s) phone numbers separated by commas '
                     'or line breaks'),
-        widget=forms.Textarea(attrs={'placeholder': 'e.g. +46701234567, ' \
-                                     '+46709876543'}))
+        widget=forms.Textarea(
+            attrs={'placeholder': 'e.g. +46701234567, +46709876543'}
+        ),
+    )
 
     def clean_receivers(self):
         data = self.cleaned_data['receivers']
